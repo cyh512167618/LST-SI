@@ -46,7 +46,7 @@ if __name__ == '__main__':
         # 'n_heads':1
     }
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', '-m', type=str, default='AMIM', help='name of models')
+    parser.add_argument('--model', '-m', type=str, default='lst-si', help='name of models')
     parser.add_argument('--dataset', '-d', type=str, default='ml-100k', help='name of datasets')
     parser.add_argument('--config_files', type=str, default='configs/Ml_100k.yaml', help='config files')
 
