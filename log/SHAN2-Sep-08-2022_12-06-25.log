@@ -1,0 +1,302 @@
+Thu 08 Sep 2022 12:06:25 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 212
+state = INFO
+reproducibility = True
+data_path = D:\papers\Decoupled Side Information Fusion for Sequential Recommendatoin\DIF-SR-main\DIF-SR-main\recbole\config\../dataset_example/ml-100k
+show_progress = True
+save_dataset = False
+save_dataloaders = False
+benchmark_filename = None
+
+Training Hyper Parameters:
+checkpoint_dir = saved
+epochs = 50
+train_batch_size = 256
+learner = adam
+learning_rate = 0.0001
+eval_step = 2
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'LS': 'valid_and_test'}, 'group_by': 'user', 'order': 'TO', 'mode': 'full'}
+metrics = ['Recall', 'NDCG']
+topk = [3, 5, 10, 20]
+valid_metric = Recall@20
+valid_metric_bigger = True
+eval_batch_size = 256
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+seq_separator =  
+USER_ID_FIELD = user_id
+ITEM_ID_FIELD = item_id
+RATING_FIELD = rating
+TIME_FIELD = timestamp
+seq_len = None
+LABEL_FIELD = label
+threshold = None
+NEG_PREFIX = neg_
+load_col = {'inter': ['user_id', 'item_id', 'rating', 'timestamp'], 'item': ['item_id', 'movie_title', 'release_year', 'class']}
+unload_col = None
+unused_col = None
+additional_feat_suffix = None
+rm_dup_inter = first
+val_interval = None
+filter_inter_by_user_or_item = True
+user_inter_num_interval = [5,inf)
+item_inter_num_interval = [5,inf)
+alias_of_user_id = None
+alias_of_item_id = None
+alias_of_entity_id = None
+alias_of_relation_id = None
+preload_weight = None
+normalize_field = None
+normalize_all = True
+ITEM_LIST_LENGTH_FIELD = item_length
+LIST_SUFFIX = _list
+MAX_ITEM_LIST_LENGTH = 50
+POSITION_FIELD = position_id
+HEAD_ENTITY_ID_FIELD = head_id
+TAIL_ENTITY_ID_FIELD = tail_id
+RELATION_ID_FIELD = relation_id
+ENTITY_ID_FIELD = entity_id
+
+Other Hyper Parameters: 
+neg_sampling = None
+multi_gpus = False
+repeatable = True
+embedding_size = 256
+short_item_length = 2
+n_layers = 4
+n_heads = 8
+attribute_hidden_size = [64]
+inner_size = 256
+hidden_dropout_prob = 0.5
+attn_dropout_prob = 0.3
+hidden_act = gelu
+layer_norm_eps = 1e-12
+initializer_range = 0.02
+selected_features = ['class']
+pooling_mode = sum
+loss_type = CE
+weight_sharing = not
+fusion_type = gate
+lamdas = [10]
+attribute_predictor = linear
+step = 1
+reg_weight = [0.01, 0.0001]
+MODEL_TYPE = ModelType.SEQUENTIAL
+hidden_size = 256
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+device = cuda
+train_neg_sample_args = {'strategy': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Thu 08 Sep 2022 12:06:25 INFO  Records in original dataset have been sorted by value of [timestamp] in ascending order.
+Thu 08 Sep 2022 12:06:25 INFO  ml-100k
+The number of users: 944
+Average actions of users: 105.28844114528101
+The number of items: 1350
+Average actions of items: 73.6004447739066
+The number of inters: 99287
+The sparsity of the dataset: 92.20911801632141%
+Remain Fields: ['user_id', 'item_id', 'rating', 'timestamp', 'movie_title', 'release_year', 'class']
+Thu 08 Sep 2022 12:06:27 INFO  [Training]: train_batch_size = [256] negative sampling: [None]
+Thu 08 Sep 2022 12:06:27 INFO  [Evaluation]: eval_batch_size = [256] eval_args: [{'split': {'LS': 'valid_and_test'}, 'group_by': 'user', 'order': 'TO', 'mode': 'full'}]
+Thu 08 Sep 2022 12:06:29 INFO  SHAN2(
+  (feature_embed_layer_list): ModuleList(
+    (0): FeatureSeqEmbLayer()
+  )
+  (trm_encoder): DIFTransformerEncoder(
+    (layer): ModuleList(
+      (0): DIFTransformerLayer(
+        (multi_head_attention): DIFMultiHeadAttention(
+          (query): Linear(in_features=256, out_features=256, bias=True)
+          (key): Linear(in_features=256, out_features=256, bias=True)
+          (value): Linear(in_features=256, out_features=256, bias=True)
+          (query_p): Linear(in_features=256, out_features=256, bias=True)
+          (key_p): Linear(in_features=256, out_features=256, bias=True)
+          (query_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (key_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (fusion_layer): VanillaAttention(
+            (projection): Sequential(
+              (0): Linear(in_features=50, out_features=50, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=50, out_features=1, bias=True)
+            )
+          )
+          (attn_dropout): Dropout(p=0.3, inplace=False)
+          (dense): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (out_dropout): Dropout(p=0.5, inplace=False)
+        )
+        (feed_forward): FeedForward(
+          (dense_1): Linear(in_features=256, out_features=256, bias=True)
+          (dense_2): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.5, inplace=False)
+        )
+      )
+      (1): DIFTransformerLayer(
+        (multi_head_attention): DIFMultiHeadAttention(
+          (query): Linear(in_features=256, out_features=256, bias=True)
+          (key): Linear(in_features=256, out_features=256, bias=True)
+          (value): Linear(in_features=256, out_features=256, bias=True)
+          (query_p): Linear(in_features=256, out_features=256, bias=True)
+          (key_p): Linear(in_features=256, out_features=256, bias=True)
+          (query_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (key_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (fusion_layer): VanillaAttention(
+            (projection): Sequential(
+              (0): Linear(in_features=50, out_features=50, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=50, out_features=1, bias=True)
+            )
+          )
+          (attn_dropout): Dropout(p=0.3, inplace=False)
+          (dense): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (out_dropout): Dropout(p=0.5, inplace=False)
+        )
+        (feed_forward): FeedForward(
+          (dense_1): Linear(in_features=256, out_features=256, bias=True)
+          (dense_2): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.5, inplace=False)
+        )
+      )
+      (2): DIFTransformerLayer(
+        (multi_head_attention): DIFMultiHeadAttention(
+          (query): Linear(in_features=256, out_features=256, bias=True)
+          (key): Linear(in_features=256, out_features=256, bias=True)
+          (value): Linear(in_features=256, out_features=256, bias=True)
+          (query_p): Linear(in_features=256, out_features=256, bias=True)
+          (key_p): Linear(in_features=256, out_features=256, bias=True)
+          (query_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (key_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (fusion_layer): VanillaAttention(
+            (projection): Sequential(
+              (0): Linear(in_features=50, out_features=50, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=50, out_features=1, bias=True)
+            )
+          )
+          (attn_dropout): Dropout(p=0.3, inplace=False)
+          (dense): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (out_dropout): Dropout(p=0.5, inplace=False)
+        )
+        (feed_forward): FeedForward(
+          (dense_1): Linear(in_features=256, out_features=256, bias=True)
+          (dense_2): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.5, inplace=False)
+        )
+      )
+      (3): DIFTransformerLayer(
+        (multi_head_attention): DIFMultiHeadAttention(
+          (query): Linear(in_features=256, out_features=256, bias=True)
+          (key): Linear(in_features=256, out_features=256, bias=True)
+          (value): Linear(in_features=256, out_features=256, bias=True)
+          (query_p): Linear(in_features=256, out_features=256, bias=True)
+          (key_p): Linear(in_features=256, out_features=256, bias=True)
+          (query_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (key_layers): ModuleList(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (fusion_layer): VanillaAttention(
+            (projection): Sequential(
+              (0): Linear(in_features=50, out_features=50, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=50, out_features=1, bias=True)
+            )
+          )
+          (attn_dropout): Dropout(p=0.3, inplace=False)
+          (dense): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (out_dropout): Dropout(p=0.5, inplace=False)
+        )
+        (feed_forward): FeedForward(
+          (dense_1): Linear(in_features=256, out_features=256, bias=True)
+          (dense_2): Linear(in_features=256, out_features=256, bias=True)
+          (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.5, inplace=False)
+        )
+      )
+    )
+  )
+  (ap): ModuleList(
+    (0): Linear(in_features=256, out_features=20, bias=True)
+  )
+  (item_embedding): Embedding(1350, 256, padding_idx=0)
+  (user_embedding): Embedding(944, 256)
+  (position_embedding): Embedding(50, 256)
+  (user_embedding_linear): Linear(in_features=256, out_features=256, bias=False)
+  (item_embedding_linear): Linear(in_features=256, out_features=256, bias=False)
+  (sigmoid): Sigmoid()
+  (long_w): Linear(in_features=256, out_features=256, bias=False)
+  (long_short_w): Linear(in_features=256, out_features=256, bias=True)
+  (relu): ReLU()
+  (LayerNorm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (loss_fct): CrossEntropyLoss()
+  (attribute_loss_fct): BCEWithLogitsLoss()
+)
+Trainable parameters: 3021240
+Thu 08 Sep 2022 12:07:37 INFO  epoch 0 training [time: 67.82s, train loss: 3886.1409]
+Thu 08 Sep 2022 12:08:44 INFO  epoch 1 training [time: 67.54s, train loss: 3664.5348]
+Thu 08 Sep 2022 12:08:44 INFO  epoch 1 evaluating [time: 0.21s, valid_score: 0.107100]
+Thu 08 Sep 2022 12:08:44 INFO  valid result: 
+recall@3 : 0.0255    recall@5 : 0.0392    recall@10 : 0.0594    recall@20 : 0.1071    ndcg@3 : 0.0174    ndcg@5 : 0.023    ndcg@10 : 0.0295    ndcg@20 : 0.0414    
+Thu 08 Sep 2022 12:08:45 INFO  Saving current best: saved\SHAN2-Sep-08-2022_12-06-29.pth
+Thu 08 Sep 2022 12:09:53 INFO  epoch 2 training [time: 68.68s, train loss: 3522.6602]
+Thu 08 Sep 2022 12:11:02 INFO  epoch 3 training [time: 68.47s, train loss: 3410.0037]
+Thu 08 Sep 2022 12:11:02 INFO  epoch 3 evaluating [time: 0.21s, valid_score: 0.194100]
+Thu 08 Sep 2022 12:11:02 INFO  valid result: 
+recall@3 : 0.0392    recall@5 : 0.0604    recall@10 : 0.1177    recall@20 : 0.1941    ndcg@3 : 0.0278    ndcg@5 : 0.0365    ndcg@10 : 0.0546    ndcg@20 : 0.0737    
+Thu 08 Sep 2022 12:11:02 INFO  Saving current best: saved\SHAN2-Sep-08-2022_12-06-29.pth
+Thu 08 Sep 2022 12:12:11 INFO  epoch 4 training [time: 68.93s, train loss: 3345.5400]
+Thu 08 Sep 2022 12:13:20 INFO  epoch 5 training [time: 68.78s, train loss: 3312.9711]
+Thu 08 Sep 2022 12:13:20 INFO  epoch 5 evaluating [time: 0.21s, valid_score: 0.203600]
+Thu 08 Sep 2022 12:13:20 INFO  valid result: 
+recall@3 : 0.0361    recall@5 : 0.0583    recall@10 : 0.1145    recall@20 : 0.2036    ndcg@3 : 0.0255    ndcg@5 : 0.0348    ndcg@10 : 0.0531    ndcg@20 : 0.0751    
+Thu 08 Sep 2022 12:13:21 INFO  Saving current best: saved\SHAN2-Sep-08-2022_12-06-29.pth
+Thu 08 Sep 2022 12:14:30 INFO  epoch 6 training [time: 68.84s, train loss: 3291.3655]
+Thu 08 Sep 2022 12:15:39 INFO  epoch 7 training [time: 69.03s, train loss: 3273.1687]
+Thu 08 Sep 2022 12:15:39 INFO  epoch 7 evaluating [time: 0.21s, valid_score: 0.203600]
+Thu 08 Sep 2022 12:15:39 INFO  valid result: 
+recall@3 : 0.0392    recall@5 : 0.0594    recall@10 : 0.1304    recall@20 : 0.2036    ndcg@3 : 0.0287    ndcg@5 : 0.0369    ndcg@10 : 0.0594    ndcg@20 : 0.0778    
+Thu 08 Sep 2022 12:16:48 INFO  epoch 8 training [time: 68.70s, train loss: 3259.7772]
+Thu 08 Sep 2022 12:17:57 INFO  epoch 9 training [time: 69.08s, train loss: 3246.5428]
+Thu 08 Sep 2022 12:17:57 INFO  epoch 9 evaluating [time: 0.21s, valid_score: 0.201500]
+Thu 08 Sep 2022 12:17:57 INFO  valid result: 
+recall@3 : 0.0403    recall@5 : 0.0604    recall@10 : 0.1166    recall@20 : 0.2015    ndcg@3 : 0.0295    ndcg@5 : 0.0378    ndcg@10 : 0.0559    ndcg@20 : 0.0774    
+Thu 08 Sep 2022 12:19:06 INFO  epoch 10 training [time: 69.10s, train loss: 3236.3888]
+Thu 08 Sep 2022 12:20:15 INFO  epoch 11 training [time: 68.66s, train loss: 3226.6580]
+Thu 08 Sep 2022 12:20:15 INFO  epoch 11 evaluating [time: 0.21s, valid_score: 0.198300]
+Thu 08 Sep 2022 12:20:15 INFO  valid result: 
+recall@3 : 0.0339    recall@5 : 0.0594    recall@10 : 0.1198    recall@20 : 0.1983    ndcg@3 : 0.023    ndcg@5 : 0.0335    ndcg@10 : 0.0527    ndcg@20 : 0.0725    
+Thu 08 Sep 2022 12:21:23 INFO  epoch 12 training [time: 68.17s, train loss: 3217.1380]
