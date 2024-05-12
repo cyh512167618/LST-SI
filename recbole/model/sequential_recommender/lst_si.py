@@ -1,15 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Time     : 2020/11/20 22:33
-# @Author   : Shao Weiqi
-# @Reviewer : Lin Kun
-# @Email    : shaoweiqi@ruc.edu.cn
-
-r"""
-SHAN
-################################################
-
-Reference:
-    Ying, H et al. "Sequential Recommender System based on Hierarchical Attention Network."in IJCAI 2018
 
 
 """
@@ -24,11 +12,6 @@ from recbole.model.layers import TransformerEncoder, FeatureSeqEmbLayer
 
 
 class LST_SI(SequentialRecommender):
-    r"""
-    SHAN exploit the Hierarchical Attention Network to get the long-short term preference
-    first get the long term purpose and then fuse the long-term with recent items to get long-short term purpose
-
-    """
 
     def __init__(self, config, dataset):
 
